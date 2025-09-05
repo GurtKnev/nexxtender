@@ -1,4 +1,8 @@
+substitutions:
+  web_server_username: admin
+  web_server_password: !secret esphome_admin_password
+
 web_server:
   auth:
-    username: admin
-    password: !secret esphome_admin_password
+    username: $web_server_username
+    password: $web_server_password
