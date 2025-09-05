@@ -1,3 +1,11 @@
+substitutions:
+  wifi_ssid: !secret wifi_ssid
+  wifi_password: !secret wifi_password
+  wifi_ap_ssid: ${device_name} - FB
+  wifi_ap_password: !secret wifi_ap_password
+  esphome_api_key: !secret esphome_api_key
+  esphome_ota_password: !secret esphome_ota_password
+
 globals:
   - id: g_wifi_connected
     type: bool
@@ -5,14 +13,14 @@ globals:
 
 ota:
   - platform: esphome
-    password: !secret esphome_admin_password
+    password: $esphome_ota_password
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+  ssid: $wifi_ssid
+  password: $wifi_password
   ap:
-    ssid: ${device_name} - FB
-    password: !secret esphome_admin_password
+    ssid: $wifi_ap_ssid
+    password: $wifi_ap_password
   on_connect:
     then:
       - lambda: |-
@@ -28,6 +36,6 @@ logger:
 
 api:
   encryption:
-    key: !secret esphome_api_key
+    key: $esphome_api_key
   id: espapi
   reboot_timeout: 5min
