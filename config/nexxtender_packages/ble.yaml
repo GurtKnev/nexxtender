@@ -1,6 +1,8 @@
 substitutions:
   ble_uuid_prefix: fd47416a-95fb-4206-88b5-b4a8045f75
   ble_uuid_receive_service: ${ble_uuid_prefix}c1
+  bluetooth_mac_address: !secret nexxtender_mac
+  bluetooth_passkey: !secret nexxtender_passkey
 
 globals:
   - id: g_ble_client_manual_disconnect
@@ -13,7 +15,7 @@ esp32_ble:
 esp32_ble_tracker:
 
 ble_client:
-  - mac_address: !secret nexxtender_mac
+  - mac_address: $bluetooth_mac_address
     id: ${device_name}_ble_client_id
     on_connect:
       then:
@@ -39,7 +41,7 @@ ble_client:
         - logger.log: "Authenticating with passkey"
         - ble_client.passkey_reply:
             id: ${device_name}_ble_client_id
-            passkey: !secret nexxtender_passkey
+            passkey: $bluetooth_passkey
 
 binary_sensor:
   - platform: template
